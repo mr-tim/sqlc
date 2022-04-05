@@ -1,0 +1,7 @@
+{{ if .Comment }}// {{.Comment}}
+{{ end -}}
+export interface {{ .Name }} {
+{{ range .Fields }}  {{ .Name }}{{ if .Type.IsNull }}?{{ end}}: {{ .Type.InnerType }}{{ if .Type.IsArray }}[]{{ end }};
+{{ end -}}
+}
+

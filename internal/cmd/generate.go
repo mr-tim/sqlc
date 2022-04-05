@@ -5,6 +5,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/kyleconroy/sqlc/internal/codegen/typescript"
 	"io"
 	"os"
 	"path/filepath"
@@ -138,6 +139,12 @@ func Generate(ctx context.Context, e Env, dir, filename string, stderr io.Writer
 				Gen: config.SQLGen{Python: sql.Gen.Python},
 			})
 		}
+		if sql.Gen.Typescript != nil {
+			pairs = append(pairs, outPair{
+				SQL: sql,
+				Gen: config.SQLGen{Typescript: sql.Gen.Typescript},
+			})
+		}
 	}
 
 	for _, sql := range pairs {
@@ -172,6 +179,9 @@ func Generate(ctx context.Context, e Env, dir, filename string, stderr io.Writer
 		} else if sql.Gen.Python != nil {
 			lang = "python"
 			name = combo.Python.Package
+		} else if sql.Gen.Typescript != nil {
+			lang = "typescript"
+			name = combo.Typescript.Package
 		}
 
 		var packageRegion *trace.Region
@@ -205,6 +215,9 @@ func Generate(ctx context.Context, e Env, dir, filename string, stderr io.Writer
 		case sql.Gen.Python != nil:
 			out = combo.Python.Out
 			genfunc = python.Generate
+		case sql.Gen.Typescript != nil:
+			out = combo.Typescript.Out
+			genfunc = typescript.Generate
 		default:
 			panic("missing language backend")
 		}

@@ -111,9 +111,10 @@ type SQL struct {
 }
 
 type SQLGen struct {
-	Go     *SQLGo     `json:"go,omitempty" yaml:"go"`
-	Kotlin *SQLKotlin `json:"kotlin,omitempty" yaml:"kotlin"`
-	Python *SQLPython `json:"python,omitempty" yaml:"python"`
+	Go         *SQLGo         `json:"go,omitempty" yaml:"go"`
+	Kotlin     *SQLKotlin     `json:"kotlin,omitempty" yaml:"kotlin"`
+	Python     *SQLPython     `json:"python,omitempty" yaml:"python"`
+	Typescript *SQLTypescript `json:"typescript,omitempty" yaml:"typescript"`
 }
 
 type SQLGo struct {
@@ -152,6 +153,11 @@ type SQLPython struct {
 	Package             string     `json:"package" yaml:"package"`
 	Out                 string     `json:"out" yaml:"out"`
 	Overrides           []Override `json:"overrides,omitempty" yaml:"overrides"`
+}
+
+type SQLTypescript struct {
+	Package string `json:"package" yaml:"package"`
+	Out     string `json:"out" yaml:"out"`
 }
 
 type Override struct {
@@ -346,13 +352,14 @@ func Validate(c *Config) error {
 }
 
 type CombinedSettings struct {
-	Global    Config
-	Package   SQL
-	Go        SQLGo
-	Kotlin    SQLKotlin
-	Python    SQLPython
-	Rename    map[string]string
-	Overrides []Override
+	Global     Config
+	Package    SQL
+	Go         SQLGo
+	Kotlin     SQLKotlin
+	Python     SQLPython
+	Typescript SQLTypescript
+	Rename     map[string]string
+	Overrides  []Override
 }
 
 func Combine(conf Config, pkg SQL) CombinedSettings {
