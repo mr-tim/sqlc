@@ -11,7 +11,7 @@ func postgresType(req *plugin.CodeGenRequest, col *plugin.Column) string {
 
 	switch columnType {
 	case "bigserial", "serial8", "pg_catalog.serial8", "bigint", "int8", "pg_catalog.int8":
-		// todo: these might need to be strings with knex
+		// todo: these might need to be strings?
 		return "BigInt"
 	case "serial", "serial4", "pg_catalog.serial4", "smallserial", "serial2", "pg_catalog.serial2", "integer", "int", "int4", "pg_catalog.int4", "smallint", "int2", "pg_catalog.int2":
 		return "number"
@@ -28,7 +28,7 @@ func postgresType(req *plugin.CodeGenRequest, col *plugin.Column) string {
 	case "bytea", "blob", "pg_catalog.bytea":
 		return "unknown"
 	case "date", "pg_catalog.time", "pg_catalog.timetz", "pg_catalog.timestamp", "pg_catalog.timestamptz",
-		"timestamptz", "interval", "pg_catalog.interval":
+		"timestamptz", "interval", "pg_catalog.interval", "timestamp with time zone":
 		return "string"
 	case "text", "pg_catalog.varchar", "pg_catalog.bpchar", "string", "citext":
 		return "string"
@@ -52,13 +52,13 @@ func postgresType(req *plugin.CodeGenRequest, col *plugin.Column) string {
 				}
 				if columnType == enumName {
 					if schema.Name == req.Catalog.DefaultSchema {
-						return "models." + modelName(enum.Name, req.Settings)
+						return modelName(enum.Name, req.Settings)
 					}
-					return "models." + modelName(schema.Name+"_"+enum.Name, req.Settings)
+					return modelName(schema.Name+"_"+enum.Name, req.Settings)
 				}
 			}
 		}
 		log.Printf("unknown PostgreSQL type: %s\n", columnType)
-		return "Any"
+		return "any"
 	}
 }

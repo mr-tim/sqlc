@@ -1,6 +1,0 @@
-{{ if .Comment }}// {{.Comment}}
-{{ end -}}
-export enum {{ .Name }} {
-{{ range .Constants }}  {{ .Name }} = '{{ .Value }}',
-{{ end }}}
-
