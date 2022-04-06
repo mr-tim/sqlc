@@ -142,10 +142,23 @@ func (q *Query) EmitCode(w io.Writer) {
 
 	if q.Cmd == ":execrows" {
 		io.WriteString(w, "    return result.rowCount;\n")
-	} else if q.Cmd == ":many" {
-		io.WriteString(w, "    return result.rows;\n")
 	} else {
-		io.WriteString(w, "    return result.rows[0];\n")
+		io.WriteString(w, "    return result.rows")
+		io.WriteString(w, ".map(row => ")
+		if q.Ret.Struct == nil {
+			fmt.Fprintf(w, "row['%s']", q.Ret.Name)
+		} else {
+			io.WriteString(w, "({\n")
+			for _, col := range q.Ret.Struct.Fields {
+				fmt.Fprintf(w, "      %s: row['%s'],\n", col.Name, col.Name)
+			}
+			io.WriteString(w, "    })")
+		}
+		io.WriteString(w, ")")
+		if q.Cmd != ":many" {
+			io.WriteString(w, "[0]")
+		}
+		io.WriteString(w, ";\n")
 	}
 
 	fmt.Fprintf(w, "  }\n")
