@@ -59,7 +59,7 @@ import { Client } from 'pg';
 	buf.WriteString("}\n")
 
 	files := make([]*plugin.File, 0)
-	files = append(files, &plugin.File{Name: "sqlc.ts", Contents: buf.Bytes()})
+	files = append(files, &plugin.File{Name: "app/server/db/queries.server.ts", Contents: buf.Bytes()})
 
 	result := plugin.CodeGenResponse{Files: files}
 
