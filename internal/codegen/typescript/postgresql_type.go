@@ -12,7 +12,7 @@ func postgresType(req *plugin.CodeGenRequest, col *plugin.Column) string {
 	switch columnType {
 	case "bigserial", "serial8", "pg_catalog.serial8", "bigint", "int8", "pg_catalog.int8":
 		// todo: these might need to be strings?
-		return "BigInt"
+		return "string"
 	case "serial", "serial4", "pg_catalog.serial4", "smallserial", "serial2", "pg_catalog.serial2", "integer", "int", "int4", "pg_catalog.int4", "smallint", "int2", "pg_catalog.int2":
 		return "number"
 	case "float", "double precision", "float8", "pg_catalog.float8", "real", "float4", "pg_catalog.float4":
