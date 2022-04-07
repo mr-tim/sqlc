@@ -117,6 +117,8 @@ func (q *Query) EmitCode(w io.Writer) {
 	q.Ret.EmitCode(w)
 	if q.Cmd == ":many" {
 		fmt.Fprintf(w, "[]")
+	} else if q.Cmd == ":one" {
+		fmt.Fprint(w, " | undefined")
 	}
 	fmt.Fprintf(w, "> {\n")
 
