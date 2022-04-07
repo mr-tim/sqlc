@@ -11,7 +11,6 @@ func postgresType(req *plugin.CodeGenRequest, col *plugin.Column) string {
 
 	switch columnType {
 	case "bigserial", "serial8", "pg_catalog.serial8", "bigint", "int8", "pg_catalog.int8":
-		// todo: these might need to be strings?
 		return "string"
 	case "serial", "serial4", "pg_catalog.serial4", "smallserial", "serial2", "pg_catalog.serial2", "integer", "int", "int4", "pg_catalog.int4", "smallint", "int2", "pg_catalog.int2":
 		return "number"
@@ -29,7 +28,7 @@ func postgresType(req *plugin.CodeGenRequest, col *plugin.Column) string {
 		return "unknown"
 	case "date", "pg_catalog.time", "pg_catalog.timetz", "pg_catalog.timestamp", "pg_catalog.timestamptz",
 		"timestamptz", "interval", "pg_catalog.interval", "timestamp with time zone":
-		return "string"
+		return "Date"
 	case "text", "pg_catalog.varchar", "pg_catalog.bpchar", "string", "citext":
 		return "string"
 	case "uuid":
